@@ -299,8 +299,8 @@ cd visual-entailment-analyzer
 pip install -r requirements.txt
 
 # 3. Download model weights (hosted on Google Drive — exceeds GitHub's 100MB limit)
-# Link: (https://drive.google.com/drive/folders/1G8HXVayxYRuoW8L-69jry8BzTed1pGZP?usp=sharing)
-# Place all .pth files in the same directory as app2.py
+ Link to Drive where model weights are stored: (https://drive.google.com/drive/folders/1G8HXVayxYRuoW8L-69jry8BzTed1pGZP?usp=sharing)
+ Place all .pth files in the same directory as app2.py
 
 # 4. Launch the demo
 streamlit run app2.py
