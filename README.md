@@ -25,18 +25,18 @@ https://drive.google.com/drive/folders/1_OX-CSacoElP15tuaaJexJU-LPzLRy-5?usp=sha
 
 ##  Table of Contents
 
-- [Problem Statement](#-problem-statement)
-- [Dataset](#-dataset--data-pipeline)
-- [Architecture](#-architecture)
-- [Experiments & Baselines](#-experiments--baselines)
-- [Training Strategy](#-training-strategy--optimization)
-- [Evaluation & Results](#-evaluation--results)
-- [Hard Negatives & Representation Collapse](#-hard-negatives--sota-collapse)
-- [Demo (Streamlit App)](#-demo--streamlit-app)
-- [Reproducing This Project](#-reproducing-this-project)
-- [Project Structure](#-project-structure)
-- [Future Scope](#-future-scope)
-- [Acknowledgements](#-acknowledgements)
+- [Problem Statement](#problem-statement)
+- [Dataset](#dataset--data-pipeline)
+- [Architecture](#architecture)
+- [Experiments & Baselines](#experiments--baselines)
+- [Training Strategy](#training-strategy--optimization)
+- [Evaluation & Results](#evaluation--results)
+- [Hard Negatives & Representation Collapse](#hard-negatives--sota-collapse)
+- [Demo (Streamlit App)](#demo--streamlit-app)
+- [Reproducing This Project](#reproducing-this-project)
+- [Project Structure](#project-structure)
+- [Future Scope](#future-scope)
+- [Acknowledgements](#acknowledgements)
 
 ---
 
