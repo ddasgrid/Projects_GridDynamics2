@@ -1,0 +1,89 @@
+{
+  "config": {
+    "train_csv": "master_augmented_snli_ve_train.csv",
+    "val_csv": "cleaned_snli_ve_dev.csv",
+    "test_csv": "cleaned_snli_ve_test.csv",
+    "checkpoint_path": "final_sota_visual_entailment3.pth",
+    "output_dir": "task1_artifacts",
+    "vision_model_name": "google/vit-base-patch16-224",
+    "text_model_name": "bert-base-uncased",
+    "max_text_length": 64,
+    "batch_size": 8,
+    "seed": 42,
+    "train_enabled": false,
+    "epochs": 2,
+    "train_batch_size": 8,
+    "lr": 2e-05,
+    "weight_decay": 0.0001,
+    "benchmark_repeats": 20,
+    "benchmark_warmup": 5,
+    "benchmark_batch_sizes": [
+      1,
+      4,
+      8
+    ],
+    "benchmark_pool_size": 128
+  },
+  "artifacts": {
+    "onnx_fp32": "task1_artifacts/vision_encoder_opset14.onnx",
+    "onnx_int8": "task1_artifacts/vision_encoder_int8.onnx",
+    "coreml_fusion_head": "task1_artifacts/fusion_head_fp16.mlpackage",
+    "benchmark_csv": "task1_artifacts/benchmark_results.csv"
+  },
+  "benchmark_preview": [
+    {
+      "engine": "pytorch",
+      "batch_size": 1,
+      "latency_mean_ms": 21.264812571462244,
+      "latency_p50_ms": 21.307354443706572,
+      "latency_p90_ms": 21.491779503412545,
+      "throughput_items_per_sec": 47.0260434527421,
+      "rss_delta_mb": 11.65625
+    },
+    {
+      "engine": "quantized_hybrid_coreml",
+      "batch_size": 1,
+      "latency_mean_ms": 31.74611033173278,
+      "latency_p50_ms": 31.708562397398055,
+      "latency_p90_ms": 32.507095811888576,
+      "throughput_items_per_sec": 31.499922023531177,
+      "rss_delta_mb": 4.265625
+    },
+    {
+      "engine": "pytorch",
+      "batch_size": 4,
+      "latency_mean_ms": 45.417918637394905,
+      "latency_p50_ms": 45.292124967090786,
+      "latency_p90_ms": 46.102449600584805,
+      "throughput_items_per_sec": 88.07096670226088,
+      "rss_delta_mb": 8.25
+    },
+    {
+      "engine": "quantized_hybrid_coreml",
+      "batch_size": 4,
+      "latency_mean_ms": 90.68847497692332,
+      "latency_p50_ms": 90.3713540174067,
+      "latency_p90_ms": 92.73323391098529,
+      "throughput_items_per_sec": 44.107037868018445,
+      "rss_delta_mb": 48.421875
+    },
+    {
+      "engine": "pytorch",
+      "batch_size": 8,
+      "latency_mean_ms": 84.49777294881642,
+      "latency_p50_ms": 84.52208340167999,
+      "latency_p90_ms": 84.69530830625445,
+      "throughput_items_per_sec": 94.67705148685884,
+      "rss_delta_mb": 7.140625
+    },
+    {
+      "engine": "quantized_hybrid_coreml",
+      "batch_size": 8,
+      "latency_mean_ms": 184.66780403396115,
+      "latency_p50_ms": 176.6645209863782,
+      "latency_p90_ms": 206.80009175557643,
+      "throughput_items_per_sec": 43.32103282350597,
+      "rss_delta_mb": 68.640625
+    }
+  ]
+}
