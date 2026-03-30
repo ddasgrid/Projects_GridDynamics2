@@ -15,7 +15,7 @@ Primary goals:
 
 ##  Demo Videos
 
-<video src="https://drive.google.com/file/d/12u0v2S9oZ5IB6xLMhQzW86krj99O-Y_c/view?usp=sharing" width="600" controls></video>
+https://drive.google.com/file/d/12u0v2S9oZ5IB6xLMhQzW86krj99O-Y_c/view?usp=sharing
 
 
 ## Pipeline
