@@ -13,6 +13,11 @@ Primary goals:
 - Curate 20 examples across entailment/neutral/contradiction with mixed difficulty.
 - Visualize token-conditioned and overall heatmaps on original images.
 
+##  Demo Videos
+
+<video src="https://drive.google.com/file/d/12u0v2S9oZ5IB6xLMhQzW86krj99O-Y_c/view?usp=sharing" width="600" controls></video>
+
+
 ## Pipeline
 1. Load `cleaned_snli_ve_test.csv` and checkpoint `final_sota_visual_entailment3.pth`.
 2. Build `VisualEntailmentWithFusionAttention` with 2 fusion-attention layers and 8 heads.
