@@ -28,6 +28,9 @@ Core requirements:
    - 14x14 patch saliency
 7. Save all outputs in `task5_artifacts/`.
 
+## Demo
+https://drive.google.com/file/d/166SjJg-4xDE4kgvdUTpMp2hyQmoOiclh/view?usp=sharing
+
 ## Results
 
 ### 1) Clean vs Adversarial Summary
