@@ -380,7 +380,7 @@ Direct script execution options are documented in each task README.
 ├── task4_run_summary.json
 ├── task4_concept_diagnostics.csv
 ├── task4_concept_lexicons.json
-├── task4_swiglu_adapter_best.pth
+├── task4_swiglu_adapter_best.pth     <- download from Google Drive:https://drive.google.com/drive/folders/1G8HXVayxYRuoW8L-69jry8BzTed1pGZP?usp=drive_link
 ├── prompt_engineering_guide_task4.md
 ├── what_till_we_do_wrong.md
 └── task5_artifacts/
