@@ -1,6 +1,6 @@
 #  Visual Entailment Analyzer (SNLI-VE)
 
-> A multimodal Two-Tower deep learning system that predicts the logical relationship — **Entailment**, **Neutral**, or **Contradiction** — between an image and a natural language hypothesis. Built and fine-tuned locally on Apple Silicon using ViT + BERT, achieving a peak validation accuracy of **73.73%**, surpassing the 70% target.
+> A multimodal Two-Tower deep learning system that predicts the logical relationship - **Entailment**, **Neutral**, or **Contradiction** - between an image and a natural language hypothesis. Built and fine-tuned locally on Apple Silicon using ViT + BERT, with a historical peak validation accuracy of **73.73%** and a deployment baseline chosen for stronger custom-data behavior.
 
 ---
 
@@ -13,13 +13,13 @@ https://drive.google.com/drive/folders/1_OX-CSacoElP15tuaaJexJU-LPzLRy-5?usp=sha
 - The model struggles with out-of-distribution (OOD) data because its ViT and BERT backbones were fine-tuned specifically on SNLI-VE and Flickr30k datasets.
 - BERT requires full bidirectional context, meaning single-word prompts lack logical structure and cause confused, random classifications.
 - ViT was trained exclusively on real-world photographs, so abstract art, simple shapes, or solid color backgrounds break its patch-based logic.
-- While BERT's sub-word tokenization handles minor misspellings, severe typos destroy the root word and prevent the model from finding visual alignments.
+- While BERT sub-word tokenization handles minor misspellings, severe typos destroy the root word and prevent the model from finding visual alignments.
 
 #### Best Practices for Optimal Results
 - Always upload natural, real-world photographs featuring distinct subjects, strictly avoiding digital art, solid colors, or abstract geometric shapes.
-- Keep your text hypotheses strictly under 128 words to prevent automatic truncation.
+- Keep your text hypotheses under 128 words to prevent automatic truncation.
 - Write complete, grammatically correct sentences that make a specific logical claim (e.g., "Two people are playing a sport" instead of just "Sports").
-- Rely on the mathematically stable Base Model (Concatenation + Linear Classifier) to run the pipeline, as it successfully absorbs gradient shock unlike the fragile SOTA model.
+- For app workflows in this repo, use the selected deployment baseline checkpoint (`final_sota_visual_entailment3.pth`) for best custom-data behavior.
 
 ---
 
@@ -50,7 +50,7 @@ https://drive.google.com/drive/folders/1_OX-CSacoElP15tuaaJexJU-LPzLRy-5?usp=sha
 | Neutral | 1 | The hypothesis may or may not be true |
 | Contradiction | 2 | The hypothesis is definitely false given the image |
 
-**Why this is hard:** It requires genuine cross-modal reasoning — the model must ground linguistic semantics into visual features, not just pattern-match within a single modality.
+**Why this is hard:** It requires genuine cross-modal reasoning - the model must ground linguistic semantics into visual features, not just pattern-match within a single modality.
 
 **Success Criterion:** Surpass **70% validation accuracy** on the full SNLI-VE dataset.
 
@@ -61,39 +61,39 @@ https://drive.google.com/drive/folders/1_OX-CSacoElP15tuaaJexJU-LPzLRy-5?usp=sha
 ### Source
 - **Annotations:** [`HuggingFaceM4/SNLI-VE`](https://huggingface.co/datasets/HuggingFaceM4/SNLI-VE) (JSONL format)
 - **Images:** Flickr30k image corpus (~31,000 unique images)
-- **Final Training Set:** 529,527 valid, **perfectly balanced** rows across all 3 classes
+- **Final Training Set:** 529,527 valid, balanced rows across all 3 classes
 
 ### Pipeline Steps
 
-```
+```text
 SNLI-VE JSONL Annotations + Flickr30k Images
-         │
-         ▼
-prepare_dataframe()   ← Drops NaNs, validates image paths, maps labels → {0,1,2}, saves CSV
-         │
-         ▼
-SNLIVEDataset         ← ViTImageProcessor (RGB) + BertTokenizer (max_length=128)
-         │
-         ▼
-DataLoader            ← batch_size=32 (optimized for Mac MPS Mixed Precision)
+         |
+         v
+prepare_dataframe()   <- Drops NaNs, validates image paths, maps labels -> {0,1,2}, saves CSV
+         |
+         v
+SNLIVEDataset         <- ViTImageProcessor (RGB) + BertTokenizer (max_length=128)
+         |
+         v
+DataLoader            <- batch_size=32 (optimized for Mac MPS Mixed Precision)
 ```
 
 ### Data Quality Measures
 
-- **Path Validation:** `os.path.exists()` check on every image before training — zero missing-file crashes.
-- **Label Cleaning:** Custom `SNLIVEDataset` explicitly drops corrupted/unlabeled rows.
-- **Perfect Class Balance:** All three classes are equally represented, eliminating class-imbalance bias.
-- **Tokenization:** Text truncated/padded to `max_length=128` via `BertTokenizer` to standardize sequence length.
+- **Path Validation:** `os.path.exists()` check on every image before training.
+- **Label Cleaning:** Custom `SNLIVEDataset` drops corrupted/unlabeled rows.
+- **Class Balance:** All three classes are equally represented.
+- **Tokenization:** Text truncated/padded to `max_length=128` via `BertTokenizer`.
 
 ### Hard Negative Generation (Phase 3)
 
-To stress-test the final model, the full dataset was infused with programmatically generated **hard negatives** — subtle contradictory pairs designed to break logical shortcuts:
+To stress-test the final model, the dataset was infused with programmatically generated hard negatives.
 
 | Method | Description |
 |---|---|
-| **Antonym Augmentation** | `nlpaug` swaps key words with antonyms, directly flipping logical meaning |
-| **Cross-Row Mashing** | Pairs an image with an entailing sentence from a completely unrelated row |
-| **Targeted POS Replacement** | `nltk` identifies high-frequency nouns/verbs and replaces them via a custom semantic confusion dictionary |
+| **Antonym Augmentation** | `nlpaug` swaps key words with antonyms, flipping logical meaning |
+| **Cross-Row Mashing** | Pairs an image with an entailing sentence from an unrelated row |
+| **Targeted POS Replacement** | `nltk` identifies high-frequency nouns/verbs and replaces them via a confusion dictionary |
 
 ---
 
@@ -101,28 +101,26 @@ To stress-test the final model, the full dataset was infused with programmatical
 
 ### Two-Tower Design
 
-```
+```text
          Image Input                    Text Input
-             │                              │
+             |                              |
     ViTImageProcessor               BertTokenizer
-             │                              │
+             |                              |
     Vision Encoder (ViT)         Text Encoder (BERT)
   (google/vit-base-patch16-224)   (bert-base-uncased)
-  [Progressively Unfrozen]        [Progressively Unfrozen]
-             │                              │
-             └──────────┬───────────────────┘
-                        │
-               Fusion Mechanism
-         (Concat vs. Cross-Attention vs. Math Merges)
-                        │
-               Reasoning Engine (FFNN)
-          Linear → LayerNorm → GELU → Dropout
-                        │
-               Classifier Head
-          (Linear vs. Deep MLP vs. SwiGLU)
-                        │
-               3-Class Output
-         [Entailment | Neutral | Contradiction]
+             |                              |
+             \-----------+------------------/
+                         |
+                Fusion Mechanism
+       (Concat / Cross-Attention / Math Merges)
+                         |
+                Reasoning Engine
+        Linear -> LayerNorm -> GELU -> Dropout
+                         |
+                Classifier Head
+               (Linear / SwiGLU)
+                         |
+                3-Class Output
 ```
 
 ### Backbone Encoders
@@ -136,10 +134,10 @@ To stress-test the final model, the full dataset was infused with programmatical
 
 | Fusion | Math | Result |
 |---|---|---|
-| **Concatenation** | `[v; t]` → 1536-dim | ✅ Best stability |
-| **Cross-Attention** | Text as Query over Image Keys/Values | ✅ Best proxy score |
-| **Element-wise Addition** | `v + t` | ❌ Noisy representations |
-| **Element-wise Multiplication** | `v ⊙ t` | ❌ Destroys unaligned features |
+| **Concatenation** | `[v; t]` -> 1536-dim | Best stability |
+| **Cross-Attention** | Text as Query over Image Keys/Values | Best advanced reasoning |
+| **Element-wise Addition** | `v + t` | Noisy representations |
+| **Element-wise Multiplication** | `v * t` | Destroys unaligned features |
 
 ### Classifier Heads Explored
 
@@ -147,46 +145,25 @@ To stress-test the final model, the full dataset was infused with programmatical
 |---|---|---|
 | Linear | Single affine layer | 56.53% |
 | Deep MLP | Stacked linear + activations | 56.76% |
-| **SwiGLU** | Multiplicative gating: `x ⊙ σ(gate)` | **59.26%** |
+| **SwiGLU** | Multiplicative gating | **59.26%** |
 
 ---
 
 ##  Experiments & Baselines
 
-Full hyperparameter and architecture search across the Base Model + 9 experiments. All proxy runs use 20% data with frozen backbones to isolate fusion/head capacity.
-
 | Experiment | Dataset | Backbone | Fusion | Depth/Dim/Dropout | Head | Val Acc | Notes |
 |---|---|---|---|---|---|---|---|
 | Base Model | 100% | Fully Frozen | Concat | 2 / 512 / 0.1 | Linear | 58.00% | Bottlenecked by frozen encoders |
-| Base Model | 100% | Top 2 Unfrozen | Concat | 2 / 512 / 0.1 | Linear | 70.69% | +12% jump from unfreezing |
-| **Base Model** | **100%** | **Top 6 Unfrozen** | **Concat** | **2 / 512 / 0.1** | **Linear** | **73.73%** | 🏆 Champion model |
-| Exp 2 | 20% | Frozen | Multiplication | 2 / 512 / 0.1 | Linear | 44.22% | Destroyed unaligned features |
-| Exp 3 | 20% | Frozen | Addition | 2 / 512 / 0.1 | Linear | 48.32% | Noisy representations |
-| Exp 4 | 20% | Frozen | Concat | 2 / 512 / 0.1 | Linear | 57.65% | Lossless information baseline |
-| Exp 1(a) | 20% | Frozen | Cross-Attention | 4 / 512 / 0.1 | Linear | 56.58% | Deep network overfit |
-| Exp 1(b) | 20% | Frozen | Cross-Attention | 1 / 512 / 0.1 | Linear | 58.00% | Shallow = better generalization |
-| Exp 1(c) | 20% | Frozen | Cross-Attention | 1 / 256 / 0.1 | Linear | 57.75% | Narrow dim restricted capacity |
-| Exp 1(d) | 20% | Frozen | Cross-Attention | 1 / 512 / 0.3 | Linear | 58.23% | High dropout killed co-adaptation |
-| Exp 5 | 20% | Frozen | Cross-Attention | 1 / 512 / 0.3 | Linear | 56.53% | Too simple to decode attention |
-| Exp 6 | 20% | Frozen | Cross-Attention | 1 / 512 / 0.3 | Deep MLP | 56.76% | Failed on frozen noise |
-| Exp 7 | 20% | Frozen | Cross-Attention | 1 / 512 / 0.3 | SwiGLU | 59.26% | Gating excelled on static features |
-| Exp 8 | 50% | Top 2 Unfrozen | Cross-Attention | 1 / 512 / 0.3 | SwiGLU | 67.21% | Scaled smoothly |
-| Exp 9 | 100% + Hard Negs | Top 4 Unfrozen | Cross-Attention | 1 / 512 / 0.3 | SwiGLU | 33.37% |  NaN Collapse |
+| Base Model | 100% | Top 2 Unfrozen | Concat | 2 / 512 / 0.1 | Linear | 70.69% | Strong jump from unfreezing |
+| **Base Model** | **100%** | **Top 6 Unfrozen** | **Concat** | **2 / 512 / 0.1** | **Linear** | **73.73%** | Historical best SNLI-VE val |
+| Exp 8 | 50% | Top 2 Unfrozen | Cross-Attention | 1 / 512 / 0.3 | SwiGLU | 67.21% | Stable advanced model |
+| Exp 9 | 100% + Hard Negs | Top 4 Unfrozen | Cross-Attention | 1 / 512 / 0.3 | SwiGLU | 33.37% | NaN collapse |
 
 ### Key Experimental Insights
 
-**Fusion:**
-- Multiplication and Addition fail because ViT and BERT encode into **completely unaligned latent spaces** — merging them mathematically creates corrupted representations.
-- Concatenation (`768 + 768 = 1536`) is lossless — it glues feature matrices side-by-side with zero mathematical assumptions.
-- Cross-Attention uses text as a dynamic **Query** to scan image features, suppressing irrelevant visual background based on linguistic context.
-
-**FFNN Depth:**
-- Depth 4 (56.58%) < Depth 1 (58.00%) — attaching a deep network to static frozen features causes **over-parameterization** (memorization, not learning).
-- `dim=512` acts as an "Information Bottleneck": wide enough for logical reasoning, narrow enough to discard background noise. `dim=256` was too restrictive.
-- `dropout=0.3` outperformed `dropout=0.1` by destroying co-adaptation shortcuts.
-
-**Classifier Head:**
-- SwiGLU's multiplicative gate (`multiply by 0` on noise) decisively outperformed both Linear and Deep MLP under frozen-backbone conditions.
+- Concatenation is highly stable under heavy gradient stress.
+- Cross-attention gives better explainability/control but can be fragile under aggressive unfreezing + hard negatives.
+- Progressive unfreezing remains critical for stability.
 
 ---
 
@@ -196,39 +173,25 @@ Full hyperparameter and architecture search across the Base Model + 9 experiment
 
 | Feature | Implementation |
 |---|---|
-| **Device Routing** | Auto-detects Apple MPS → CUDA → CPU |
+| **Device Routing** | Auto-detects Apple MPS -> CUDA -> CPU |
 | **Mixed Precision (AMP)** | `torch.autocast` wraps forward passes |
-| **Gradient Scaling** | `GradScaler` for CUDA; intentionally bypassed for MPS (not required) |
+| **Gradient Scaling** | `GradScaler` for CUDA; bypassed on MPS |
 | **Inference Optimization** | `torch.no_grad()` during validation |
 
 ### Optimizer & Scheduler
 
 | Component | Config | Rationale |
 |---|---|---|
-| **Optimizer** | AdamW, `weight_decay=0.01` | Decoupled weight decay for stable regularization |
-| **Backbone LR** | `1e-5` | Conservative — prevents gradient shock on pre-trained weights |
-| **Head LR** | `1e-4` | Aggressive — untrained heads need faster convergence |
-| **Scheduler** | Cosine Warmup (10% warmup → cosine decay) | Prevents early gradient spikes; precise convergence |
+| **Optimizer** | AdamW, `weight_decay=0.01` | Stable regularization |
+| **Backbone LR** | `1e-5` | Prevents gradient shock |
+| **Head LR** | `1e-4` | Faster head convergence |
+| **Scheduler** | Cosine warmup + decay | Stabilizes early steps |
 
 ### Training Flow Control
 
+```text
+Proxy Training -> Architecture search -> Progressive unfreezing -> Early stopping
 ```
-Proxy Training (20% data, frozen backbones)
-   → Architecture search (fusion + head + FFNN params)
-   → Best config: Cross-Attention + SwiGLU
-
-Progressive Unfreezing
-   Phase 1: 0 layers unfrozen   → Proxy baseline
-   Phase 2: Top 2 layers        → 70.69% (Base) / 67.21% (SOTA)
-   Phase 3: Top 6 layers        → 73.73% (Base) ✅ / NaN collapse (SOTA) 
-
-Early Stopping
-   → patience=3 (halts if val loss doesn't improve for 3 epochs)
-   → Prevents overfitting at every phase
-```
-
-**Why Progressive Unfreezing?**
-Sequentially unfreezing transformer layers builds a mathematical "wall" that protects pre-trained weights from catastrophic forgetting, while allowing the model to safely adapt to the target domain.
 
 ---
 
@@ -238,18 +201,42 @@ Sequentially unfreezing transformer layers builds a mathematical "wall" that pro
 
 | Metric | Description |
 |---|---|
-| **Validation Accuracy** | % correctly classified across Entailment / Neutral / Contradiction on unseen eval set |
-| **Cross-Entropy Loss** | Measures predictive confidence; triggers Early Stopping if it plateaus for 3 epochs |
+| **Validation Accuracy** | % correctly classified across 3 classes |
+| **Cross-Entropy Loss** | Confidence-aware training/eval loss |
+| **Latency / Throughput** | Runtime performance for deployment |
+| **Robustness Drop** | Accuracy drop under adversarial perturbations |
 
-### Final Results Summary
+### Final Results Summary (Core Models)
 
 | Architecture | Dataset Scale | Final Accuracy | Goal (>70%) | Stability |
 |---|---|---|---|---|
-| 🏆 **Base (Concat + Linear, Top 6 Unfrozen)** | 100% | **73.73%** | ✅ Exceeded | Highly stable — absorbed massive gradients |
-| Base (Concat + Linear, Top 2 Unfrozen) | 100% | 70.69% | ✅ Met | Stable intermediate step |
-| SOTA (Attention + SwiGLU, Top 2 Unfrozen) | 50% | 67.21% | ❌ Missed | Stable on limited data |
-| SOTA Proxy (Attention + SwiGLU, Frozen) | 20% | 59.26% | ❌ Missed | Best under controlled proxy |
-| SOTA Collapse (Attention + SwiGLU, Top 4 Unfrozen) | 100% + Hard Negs | 33.37% | ❌ Failed | Total NaN network death |
+| Base (Concat + Linear, Top 6 Unfrozen) | 100% | 73.73% | Met | Highly stable |
+| Base (Concat + Linear, Top 2 Unfrozen) | 100% | 70.69% | Met | Stable |
+| SOTA (Attention + SwiGLU, Top 2 Unfrozen) | 50% | 67.21% | Missed | Stable on limited data |
+| SOTA Collapse (Attention + SwiGLU, Top 4 Unfrozen) | 100% + Hard Negs | 33.37% | Failed | Unstable |
+
+### Baseline Checkpoint Decision for Task 1-5 Work
+
+Before running Task 1-5 deliverables, we standardized on **`final_sota_visual_entailment3.pth` (64.18% clean-test accuracy)** as the practical baseline in app and analysis pipelines.
+
+Even though a **73.7%** model exists on prior validation experiments, the **64.18% checkpoint produced better behavior on custom user data** (less brittle outputs and more consistent real-image predictions), so it was selected as the project baseline for downstream tasks.
+
+### Task 1-5 Deliverables (Details, Results, Execution)
+
+| Task | What was implemented | Key result | How to run |
+|---|---|---|---|
+| **Task 1** CoreML + Quantization | ONNX export (`opset=14`) + INT8 quantization + CoreML hybrid benchmarking | ONNX size 327.52 MB -> 83.01 MB (**74.65% reduction**) | `nenv/bin/python -c "from task1_coreml_pipeline import Task1Config, run_task1; run_task1(Task1Config())"` or `task_1.ipynb` |
+| **Task 2** Cross-Attention Viz | Fusion cross-attention hooks + token/overall overlays + artifact indexing | 20 curated examples, selected-set accuracy **80.00%**, 40 attention tensors | `nenv/bin/python -c "from task2_cross_attention_viz import Task2Config, run_task2; run_task2(Task2Config())"` or `task_2.ipynb` |
+| **Task 3** ViT Pruning | ViT depth ablations (12/9/6), 2-epoch head tuning, latency/param tradeoff | 9-layer gives best tradeoff: **62.18% val**, **234.05 ms** (1.87x faster than 12-layer) | `task_3.ipynb` + checkpoints (`final_sota_visual_entailment3.pth`, `task_3_9.pth`, `task_3_6.pth`) |
+| **Task 4** Prompt Transfer | Frozen encoders + adapter head + concept-aware prompt template evaluation | Best mean zero-shot template: **`high_specificity` = 0.3997**; mean one-shot gain +0.0035 | `nenv/bin/python -c "from task4_pipeline import run_task4; run_task4(base_dir='.', train_sample=12000, dev_sample=3000, eval_sample=1500, batch_size=64, seed=42)"` or `task_4.ipynb` |
+| **Task 5** Adversarial Robustness | 100 adversarial pairs, FGSM/PGD, text attacks, token/patch vulnerability | Clean test acc **0.6411**; PGD @4/255 drives adversarial accuracy to **0.0000** | `nenv/bin/python -c "from task5_adversarial import Task5Config, run_task5; run_task5(Task5Config())"` or `task_5.ipynb` |
+
+For full per-task reports, see:
+- [`README_task1.md`](README_task1.md)
+- [`README_task2.md`](README_task2.md)
+- [`README_task3.md`](README_task3.md)
+- [`README_task4.md`](README_task4.md)
+- [`README_task5.md`](README_task5.md)
 
 ---
 
@@ -257,60 +244,48 @@ Sequentially unfreezing transformer layers builds a mathematical "wall" that pro
 
 ### What Happened in Experiment 9
 
-The SOTA architecture (Cross-Attention + SwiGLU) was stress-tested with 4 unfrozen transformer layers + full hard-negative-infused dataset. In **Epoch 2**, the model suffered **complete representation collapse**:
+The attention + SwiGLU architecture was stress-tested with hard negatives and deeper unfreezing. In epoch 2, validation loss became NaN and accuracy dropped to chance level.
 
-- Validation loss → `NaN`
-- Accuracy → `33.37%` (pure random chance for 3 classes)
+### Root Cause (High-Level)
 
-### Root Cause: A Perfect Storm
-
-```
-Hard Negatives → Massive error signals (high loss)
-       +
-4 Unfrozen Layers → Internal Covariate Shift (ViT/BERT outputs shift violently)
-       +
-Cross-Attention Softmax + SwiGLU gates → Fragile math that breaks under large shifting inputs
-       =
-Gradient Explosion → NaN poisoning → Total network death
+```text
+Hard negatives + deeper unfreezing + fragile gated attention math
+-> gradient explosion / representation drift
+-> NaN collapse
 ```
 
-### Why the Base Model Survived
+### Why the Simpler Base Model Survived
 
-Under even heavier stress (6 unfrozen layers), the Base Model (Concatenation + Linear) peaked at **73.73%** because:
-- **Concatenation** = basic matrix stitching. No Softmax, no gates. Mathematically indestructible.
-- **Linear Classifier** = simple matrix multiplication. Absorbs gradient shocks without exploding.
-
-> **Core Lesson:** Architectural simplicity is not a weakness — it is a stability superpower when scaling to full data with deep unfreezing.
+- Concatenation + linear head has lower numerical fragility.
+- It handles gradient spikes better in full-scale training.
 
 ---
 
-##  Demo — Streamlit App
+##  Demo - Streamlit App
 
-An interactive **Streamlit** UI (`app2.py`) allows inference on new image-text pairs without any code.
+The project now ships a **single unified Streamlit app** (`app.py`) with all interfaces merged:
+- Core entailment analyzer,
+- Task 2 heatmap viewer/generator,
+- Task 4 prompt transfer studio,
+- Task 5 robustness explorer.
 
 ### Running the App
 
 ```bash
 # 1. Clone the repository
-git clone <(https://github.com/ddasgrid/Projects_GridDynamics2)>
+git clone <https://github.com/ddasgrid/Projects_GridDynamics2>
 cd visual-entailment-analyzer
 
 # 2. Install dependencies
 pip install -r requirements.txt
 
-# 3. Download model weights (hosted on Google Drive — exceeds GitHub's 100MB limit)
- Download Model Weights From: (https://drive.google.com/drive/folders/1G8HXVayxYRuoW8L-69jry8BzTed1pGZP?usp=sharing)
- Place all .pth files in the same directory as app2.py
+# 3. Place model weights in repository root
+# Recommended baseline:
+#   final_sota_visual_entailment3.pth
 
-# 4. Launch the demo
-streamlit run app2.py
+# 4. Launch unified app
+streamlit run app.py
 ```
-
-### App Features
-- **Upload any image** (Flickr30k or custom)
-- **Type any hypothesis** as free text
-- Outputs predicted label (**Entailment / Neutral / Contradiction**) with confidence scores
-- Runs locally using the champion Base Model weights
 
 ---
 
@@ -318,89 +293,95 @@ streamlit run app2.py
 
 ### Requirements
 
-**Hardware:** Apple Silicon Mac (M1/M2/M3) recommended for MPS acceleration. Minimum **16GB RAM** required for unfreezing deep transformer layers.
+**Hardware:** Apple Silicon Mac recommended (MPS acceleration), 16GB RAM preferred.
 
 **Software:**
 
-```
+```text
 torch>=2.0.0
 transformers>=4.30.0
-nltk>=3.8.1
-nlpaug>=1.1.11
+onnx>=1.14.0
+onnxruntime>=1.16.0
+coremltools>=7.0
 pandas>=1.5.0
 numpy>=1.23.0
 Pillow>=9.0.0
-tqdm>=4.65.0
 streamlit>=1.25.0
 matplotlib>=3.7.0
-seaborn>=0.12.0
+scikit-learn>=1.2.0
+nltk>=3.8.1
 ```
 
-Install all dependencies:
+Install dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ### Step-by-Step Reproduction
 
+```text
+Step 1 -> Run task_1.ipynb (CoreML export + INT8 quantization + benchmark)
+Step 2 -> Run task_2.ipynb (cross-attention hook extraction + heatmaps)
+Step 3 -> Run task_3.ipynb (ViT depth pruning + latency/accuracy ablation)
+Step 4 -> Run task_4.ipynb (prompt transfer + concept diagnostics)
+Step 5 -> Run task_5.ipynb (FGSM/PGD + text attacks + vulnerability analysis)
+Step 6 -> streamlit run app.py (unified UI for all tasks)
 ```
-Step 1 → Run base_model.ipynb          (Data curation + baseline frozen training)
-Step 2 → Run Experiment_1.ipynb        (Attention fusion hyperparameter tuning)
-Step 3 → Run Experiments 2–7.ipynb     (Fusion & classifier head search on 20% proxy)
-Step 4 → Run Experiment_8.ipynb        (50% data scale-up with Top 2 unfrozen)
-Step 5 → Run Experiment_9.ipynb        (100% data + hard negatives — observe NaN collapse)
-Step 6 → Return to base_model.ipynb    (Progressive unfreezing → Top 2 → Top 6, champion run)
-Step 7 → streamlit run app2.py         (Launch interactive demo)
-```
+
+Direct script execution options are documented in each task README.
 
 ---
 
 ##  Project Structure
 
-```
+```text
 .
-├── app.py                  ← Streamlit demo UI
-├── base_model.ipynb        ← Baseline establishment & data curation
-├── Experiment_1.ipynb      ← Attention Fusion hyperparameter tuning
-├── Experiment_2.ipynb      ← Element-wise Multiplication test
-├── Experiment_3.ipynb      ← Element-wise Addition test
-├── Experiment_4.ipynb      ← Concatenation fusion test
-├── Experiment_5.ipynb      ← Standard Linear Head test
-├── Experiment_6.ipynb      ← Deep MLP Classifier test
-├── Experiment_7.ipynb      ← SwiGLU Classifier test
-├── Experiment_8.ipynb      ← 50% Data Scale-up
-├── Experiment_9.ipynb      ← 100% Data Scale-up & NaN Collapse
-├── read.md                 ← Experiment summaries
-├── report_2.pdf            ← Theoretical logic and mathematical breakdown
-└── requirements.txt        ← Python dependencies
+├── README.md
+├── README_task1.md
+├── README_task2.md
+├── README_task3.md
+├── README_task4.md
+├── README_task5.md
+├── DEPLOY_APP2.md
+├── requirements.txt
+├── app.py                        <- unified Streamlit app (core + task2 + task4 + task5)
+├── app_backbones.py              <- shared baseline checkpoint list
+├── app_task2.py                  <- Task 2 UI module used by app.py
+├── app_task4.py                  <- Task 4 UI module used by app.py
+├── app_task5.py                  <- Task 5 UI module used by app.py
+├── task_1.ipynb
+├── task_2.ipynb
+├── task_3.ipynb
+├── task_4.ipynb
+├── task_5.ipynb
+├── task1_coreml_pipeline.py
+├── task2_cross_attention_viz.py
+├── task4_pipeline.py
+├── task5_adversarial.py
+├── task1_artifacts/
+├── task2_artifacts/
+├── task3_artifacts/
+├── task4_results.csv
+├── task4_run_summary.json
+├── task4_concept_diagnostics.csv
+├── task4_concept_lexicons.json
+├── task4_swiglu_adapter_best.pth
+├── prompt_engineering_guide_task4.md
+├── what_till_we_do_wrong.md
+└── task5_artifacts/
 ```
-
-> **Note:** Model weights (`.pth` files) are hosted on Google Drive due to GitHub's 100MB file size limit.
 
 ---
 
 ##  Future Scope
 
-To push accuracy from **73.73% → 80%+**, two parallel improvement tracks are planned:
+To push performance and deployment quality further:
 
-### 1. Maximize the Base Model
-The champion model is currently under-trained at only **1 epoch per unfreezing phase**. Extending to **3–5 epochs per phase** with Cosine LR Decay + Early Stopping will allow the model to safely reach a deeper global minimum without forgetting.
-
-### 2. Stabilize the SOTA Architecture
-To prevent the NaN collapse observed in Experiment 9, the Cross-Attention + SwiGLU model requires:
-
-| Fix | Purpose |
-|---|---|
-| **Gradient Clipping** (`max_norm=1.0`) | Caps exploding gradient magnitudes before they cause NaN |
-| **Curriculum Learning** | Delay hard negatives until the model stabilizes in later epochs |
-| **Lower Backbone LR** (`1e-6` vs `1e-5`) | Slower unfreezing to reduce covariate shift |
-
-### 3. Transition to LoRA
-Instead of fully unfreezing millions of backbone parameters (which causes instability + high VRAM usage), future versions will use **LoRA (Low-Rank Adaptation)**:
-- Freeze original ViT/BERT weights entirely
-- Inject tiny trainable adapter matrices (`rank=8` to `rank=32`)
-- Eliminates gradient explosion while enabling complex fusion head scaling
-- Reduces memory footprint by ~60–70% compared to full fine-tuning
+1. Improve custom-data generalization while preserving benchmark accuracy.
+2. Add stronger adversarial training (image + text) to harden robustness.
+3. Move more of the multimodal stack into optimized runtimes for Apple devices.
+4. Expand adapter/LoRA style lightweight transfer for new domains.
 
 ---
 
@@ -420,6 +401,6 @@ Instead of fully unfreezing millions of backbone parameters (which causes instab
 
 <div align="center">
 
-**Built with ViT + BERT | Fine-tuned on Apple Silicon | Peak Accuracy: 73.73%**
+**Built with ViT + BERT | Extended through Tasks 1-5 | Unified Streamlit Deployment**
 
 </div>
