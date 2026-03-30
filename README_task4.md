@@ -25,6 +25,9 @@ Core requirements:
 4. Run concept-aware diagnostics across `action`, `count`, `spatial`, `negation`, `object_or_attribute`.
 5. Export metrics, diagnostics, guide, and visuals.
 
+##  Demo Video
+https://drive.google.com/file/d/1l61WU6z8Oxy9gZ4H6DSCNEGj_OaPYXkv/view?usp=sharing
+
 ## Results
 
 ### 1) Run Summary
