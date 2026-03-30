@@ -85,7 +85,7 @@ pip install -r requirements.txt
 ### Output Artifacts (`task1_artifacts/`)
 - `vision_encoder_opset14.onnx` and `vision_encoder_opset14.onnx.data`  
   FP32 ONNX export of ViT vision encoder.
-  (Download from Google Drive:)
+  (Download from Google Drive:https://drive.google.com/drive/folders/1G8HXVayxYRuoW8L-69jry8BzTed1pGZP?usp=drive_link)
 - `vision_encoder_int8.onnx`  
   Quantized INT8 ONNX vision encoder.
 - `fusion_head_fp16.mlpackage`  
