@@ -1,6 +1,23 @@
-streamlit==1.54.0
-torch==2.10.0
-transformers==5.2.0
-Pillow==12.1.1
-pandas==2.3.3
-datasets==4.5.0
+# Core runtime
+numpy>=1.26
+pandas>=2.1
+Pillow>=10.0
+torch>=2.2
+transformers>=4.40
+streamlit>=1.30
+tqdm>=4.66
+psutil>=5.9
+huggingface_hub>=0.23
+
+# Data + NLP utilities used in task pipelines
+datasets>=2.16
+nltk>=3.8
+spacy>=3.7
+
+# Visualization
+matplotlib>=3.8
+
+# Task 1 export / optimization stack
+onnx>=1.15
+onnxruntime>=1.17
+coremltools>=8.0; platform_system == "Darwin"
