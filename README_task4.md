@@ -106,7 +106,7 @@ pip install -r requirements.txt
   Main evaluation table (dataset x template x concept bucket).
 - `task4_run_summary.json`  
   Run metadata, config, artifact paths.
-- `task4_swiglu_adapter_best.pth`  
+- `task4_swiglu_adapter_best.pth`(Download from Google Drive:https://drive.google.com/drive/folders/1G8HXVayxYRuoW8L-69jry8BzTed1pGZP?usp=drive_link)  
   Trained adapter/head weights.
 - `task4_concept_lexicons.json`  
   Concept lexicons.
