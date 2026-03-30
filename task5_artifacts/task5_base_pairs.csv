@@ -1,0 +1,101 @@
+source_index,image_path,hypothesis,label
+17848,./images_folder/flickr30k-images/16158623.jpg,a man is wearing a vray shirt.,entailment
+12988,./images_folder/flickr30k-images/1872000955.jpg,People are standing near rocks.,entailment
+7740,./images_folder/flickr30k-images/292198220.jpg,a girl inside,entailment
+5256,./images_folder/flickr30k-images/3373544964.jpg,a boy is standing,entailment
+14052,./images_folder/flickr30k-images/4977528001.jpg,There is a boy.,entailment
+16273,./images_folder/flickr30k-images/2504056718.jpg,The black and white dog leap,entailment
+17140,./images_folder/flickr30k-images/4118638516.jpg,A middle eastern guy is selling stuff.,entailment
+238,./images_folder/flickr30k-images/1246863003.jpg,Three chefs work together.,entailment
+1874,./images_folder/flickr30k-images/2123838998.jpg,There is a band dressed as Santa Claus playing on the street.,entailment
+13251,./images_folder/flickr30k-images/83001714.jpg,People playing a game outside.,entailment
+6277,./images_folder/flickr30k-images/6870585516.jpg,Men and women are on the escalators.,entailment
+8411,./images_folder/flickr30k-images/4716333601.jpg,two pedestrians walk on a cobblestone road past a cafe,entailment
+1634,./images_folder/flickr30k-images/410422753.jpg,A dog is covered in snow,entailment
+9697,./images_folder/flickr30k-images/4912108775.jpg,A man is wearing a black shirt,entailment
+9230,./images_folder/flickr30k-images/1775223211.jpg,Two women are operating equipment.,entailment
+791,./images_folder/flickr30k-images/2723024306.jpg,An adult is working with sand.,entailment
+1319,./images_folder/flickr30k-images/553918837.jpg,A girl slides down the playground slide.,entailment
+14369,./images_folder/flickr30k-images/582788646.jpg,A kid is swimming in the water.,entailment
+500,./images_folder/flickr30k-images/1313961775.jpg,The girl is above the water.,entailment
+252,./images_folder/flickr30k-images/1246863003.jpg,Food is being prepared in a kitchen by three men,entailment
+16160,./images_folder/flickr30k-images/3316725440.jpg,A person is riding a bike,entailment
+14439,./images_folder/flickr30k-images/345284642.jpg,The brown dog is outdoors.,entailment
+4453,./images_folder/flickr30k-images/135444196.jpg,A women is outside.,entailment
+9105,./images_folder/flickr30k-images/97162852.jpg,The woman is outdoors.,entailment
+7143,./images_folder/flickr30k-images/6869365418.jpg,Children playing.,entailment
+17137,./images_folder/flickr30k-images/4118638516.jpg,a man selling things,entailment
+12514,./images_folder/flickr30k-images/2580707208.jpg,A man with long hair makes a funny face while wearing two hats,entailment
+12803,./images_folder/flickr30k-images/252846811.jpg,Two dogs are interacting outside.,entailment
+7699,./images_folder/flickr30k-images/2511798599.jpg,People are wearing blue,entailment
+10276,./images_folder/flickr30k-images/2641049916.jpg,A kid's face is painted,entailment
+16775,./images_folder/flickr30k-images/536537638.jpg,Several Asian women put clothes on their heads.,entailment
+2426,./images_folder/flickr30k-images/1303727066.jpg,A man is wearing a shirt.,entailment
+14987,./images_folder/flickr30k-images/2507831979.jpg, A woman enjoying coffee.,entailment
+14816,./images_folder/flickr30k-images/2797188545.jpg,Two people are outside,entailment
+2261,./images_folder/flickr30k-images/7235990180.jpg,Children are playing.,entailment
+3483,./images_folder/flickr30k-images/3120921482.jpg,A kid is enjoying playing guitar.,entailment
+5203,./images_folder/flickr30k-images/4676792744.jpg,There are a couple people walking down a street.,entailment
+15733,./images_folder/flickr30k-images/697582336.jpg,The dogs are running.,entailment
+1187,./images_folder/flickr30k-images/3584603849.jpg,The plane is in the sky,entailment
+13875,./images_folder/flickr30k-images/288038357.jpg,Man working on a roof,entailment
+11963,./images_folder/flickr30k-images/3560502528.jpg,A bunch of men are standing around bicycles on the platform.,entailment
+12157,./images_folder/flickr30k-images/575853856.jpg,The man is playing an instrument.,entailment
+1225,./images_folder/flickr30k-images/16396205.jpg,Three men stand behind a barbecue.,entailment
+965,./images_folder/flickr30k-images/11551286.jpg,A dark haired boy is angry.,entailment
+4677,./images_folder/flickr30k-images/3320411267.jpg,A man is outdoors.,entailment
+4668,./images_folder/flickr30k-images/3320411267.jpg,The person is in the vicinity of trees.,entailment
+11086,./images_folder/flickr30k-images/4062259729.jpg,a man on a boat,entailment
+531,./images_folder/flickr30k-images/4005756399.jpg,A street vendor is working.,entailment
+11686,./images_folder/flickr30k-images/1387014885.jpg,People are talking to each other.,entailment
+17055,./images_folder/flickr30k-images/4494075018.jpg,Man in shawl prays by the small boat and large lake.,entailment
+1727,./images_folder/flickr30k-images/4692725862.jpg,Children swimming.,entailment
+9453,./images_folder/flickr30k-images/509987636.jpg,A man wearing a white hat is close to photos.,entailment
+13980,./images_folder/flickr30k-images/1505686764.jpg,a man stands outside,entailment
+14800,./images_folder/flickr30k-images/2797188545.jpg,The river is rough,entailment
+3000,./images_folder/flickr30k-images/7990849887.jpg,A group of people on the stage.,entailment
+95,./images_folder/flickr30k-images/92679312.jpg,Two people are holding electronics equipment.,entailment
+6428,./images_folder/flickr30k-images/118939364.jpg,A woman works on a piece of clothing.,entailment
+16507,./images_folder/flickr30k-images/172097783.jpg,Someone is wearing a red life jacket.,entailment
+6801,./images_folder/flickr30k-images/129662899.jpg,A man carries a spindle,entailment
+4661,./images_folder/flickr30k-images/3559693175.jpg,the people are browsing the store,entailment
+3674,./images_folder/flickr30k-images/2842439618.jpg,the surfers are on the water,entailment
+3266,./images_folder/flickr30k-images/20702864.jpg,City workers are working outside.,entailment
+4046,./images_folder/flickr30k-images/151215569.jpg,A young child is outside with a man.,entailment
+6555,./images_folder/flickr30k-images/3819214047.jpg,There are 2 guys sitting on a skateboard.,entailment
+981,./images_folder/flickr30k-images/214166720.jpg,A man has a stuffed toy.,entailment
+8468,./images_folder/flickr30k-images/305979887.jpg,a individual on a table holds a water near a stroller,entailment
+4930,./images_folder/flickr30k-images/253924161.jpg,A human sitting,entailment
+1519,./images_folder/flickr30k-images/4623878206.jpg,A woman with a backpack is walking across the street.,entailment
+6797,./images_folder/flickr30k-images/129662899.jpg,The man is near rope.,entailment
+6080,./images_folder/flickr30k-images/128395402.jpg,A woman has a bike.,entailment
+16716,./images_folder/flickr30k-images/1157215900.jpg,A woman is interested in bread.,entailment
+10354,./images_folder/flickr30k-images/4567003374.jpg,A man is playing an instrument.,entailment
+5576,./images_folder/flickr30k-images/4791513183.jpg,There is a girl waiting by the door.,entailment
+3784,./images_folder/flickr30k-images/6848277313.jpg,A man is with a projector screen.,entailment
+12320,./images_folder/flickr30k-images/3525978606.jpg,A woman cleaning an object.,entailment
+239,./images_folder/flickr30k-images/1246863003.jpg,Three chefs are at work.,entailment
+12040,./images_folder/flickr30k-images/6839984356.jpg,a young asian is sitting.,entailment
+11810,./images_folder/flickr30k-images/3125628091.jpg,Someone is smiling.,entailment
+10295,./images_folder/flickr30k-images/3169184260.jpg,The young boy is holding a toy.,entailment
+3558,./images_folder/flickr30k-images/1554713437.jpg,a dogs walks on a downed tree,entailment
+933,./images_folder/flickr30k-images/3134341610.jpg,Two people walking around,entailment
+983,./images_folder/flickr30k-images/214166720.jpg,A man is sitting.,entailment
+9293,./images_folder/flickr30k-images/3308171165.jpg,A girl is holding on to her necklace.,entailment
+7513,./images_folder/flickr30k-images/1260816604.jpg,A person is in a moving car.,entailment
+466,./images_folder/flickr30k-images/1313961775.jpg,A little girl in water.,entailment
+464,./images_folder/flickr30k-images/1313961775.jpg,Little girl floating in water,entailment
+3122,./images_folder/flickr30k-images/4459033855.jpg,A man makes a presentation.,entailment
+7302,./images_folder/flickr30k-images/2540884723.jpg,The couple is sitting.,entailment
+14597,./images_folder/flickr30k-images/2202059975.jpg,Two person is looking at an art piece.,entailment
+14992,./images_folder/flickr30k-images/2841909138.jpg,A women sat outside.,entailment
+4183,./images_folder/flickr30k-images/28041138.jpg,A man is wearing a cotton gray tank top.,entailment
+10705,./images_folder/flickr30k-images/5892931627.jpg,A person is playing baseball.,entailment
+12231,./images_folder/flickr30k-images/6925158300.jpg,A bunch of men using computers.,entailment
+4479,./images_folder/flickr30k-images/7746984692.jpg,A hiker is walking.,entailment
+15887,./images_folder/flickr30k-images/6987411804.jpg,Cheerleaders perform.,entailment
+14542,./images_folder/flickr30k-images/4803926618.jpg,A drummer is playing the drums.,entailment
+13727,./images_folder/flickr30k-images/281658181.jpg,A female athlete is vaulting.,entailment
+14566,./images_folder/flickr30k-images/2515822745.jpg,The two people speak into the same microphone.,entailment
+14346,./images_folder/flickr30k-images/2980901328.jpg,A repairman works outside.,entailment
+4984,./images_folder/flickr30k-images/2532047708.jpg,Two men play a banjo and violin.,entailment

@@ -1,0 +1,82 @@
+{
+  "config": {
+    "test_csv": "cleaned_snli_ve_test.csv",
+    "checkpoint_path": "final_sota_visual_entailment3.pth",
+    "vision_model_name": "google/vit-base-patch16-224",
+    "text_model_name": "bert-base-uncased",
+    "output_dir": "task5_artifacts",
+    "num_adversarial_pairs": 100,
+    "batch_size": 8,
+    "max_text_length": 64,
+    "seed": 42,
+    "clean_eval_limit": null,
+    "epsilons": [
+      0.00392156862745098,
+      0.01568627450980392,
+      0.03137254901960784
+    ],
+    "pgd_steps": 10,
+    "pgd_step_scale": 0.25,
+    "image_attack_methods": [
+      "fgsm",
+      "pgd"
+    ],
+    "strongest_attack_method": "pgd",
+    "save_adversarial_images": false,
+    "save_top_k_tokens": 25,
+    "save_top_k_regions": 10
+  },
+  "clean_test_accuracy": 0.6411373666275627,
+  "clean_test_evaluated_rows": 17901,
+  "clean_base_accuracy": 1.0,
+  "clean_base_mean_confidence": 0.6266327500343323,
+  "text_adversarial_accuracy": 0.6700000166893005,
+  "text_flip_rate": 0.6899999976158142,
+  "combined_adversarial_accuracy": 0.800000011920929,
+  "combined_flip_rate": 1.0,
+  "image_attack_results": [
+    {
+      "attack_method": "fgsm",
+      "epsilon": 0.00392156862745098,
+      "accuracy": 0.4399999976158142,
+      "attack_success_rate": 0.5600000023841858
+    },
+    {
+      "attack_method": "fgsm",
+      "epsilon": 0.01568627450980392,
+      "accuracy": 0.3100000023841858,
+      "attack_success_rate": 0.6899999976158142
+    },
+    {
+      "attack_method": "fgsm",
+      "epsilon": 0.03137254901960784,
+      "accuracy": 0.33000001311302185,
+      "attack_success_rate": 0.6700000166893005
+    },
+    {
+      "attack_method": "pgd",
+      "epsilon": 0.00392156862745098,
+      "accuracy": 0.05000000074505806,
+      "attack_success_rate": 0.949999988079071
+    },
+    {
+      "attack_method": "pgd",
+      "epsilon": 0.01568627450980392,
+      "accuracy": 0.0,
+      "attack_success_rate": 1.0
+    },
+    {
+      "attack_method": "pgd",
+      "epsilon": 0.03137254901960784,
+      "accuracy": 0.0,
+      "attack_success_rate": 1.0
+    }
+  ],
+  "artifacts": {
+    "base_pairs_csv": "task5_artifacts/task5_base_pairs.csv",
+    "text_pairs_csv": "task5_artifacts/task5_text_adversarial_pairs.csv",
+    "image_results_csv": "task5_artifacts/task5_image_attack_results.csv",
+    "token_vulnerability_csv": "task5_artifacts/task5_token_vulnerability.csv",
+    "region_vulnerability_csv": "task5_artifacts/task5_image_region_vulnerability.csv"
+  }
+}

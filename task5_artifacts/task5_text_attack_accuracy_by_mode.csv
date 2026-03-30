@@ -1,0 +1,5 @@
+attack_mode,samples,clean_accuracy,adversarial_accuracy,accuracy_drop
+negation,70,1.0,0.6857142857142857,0.3142857142857143
+paraphrase,20,1.0,0.7,0.30000000000000004
+object_substitution,8,1.0,0.625,0.375
+color_swap,2,1.0,0.0,1.0
