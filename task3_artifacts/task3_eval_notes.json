@@ -1,0 +1,20 @@
+{
+  "evaluation_protocol": {
+    "dataset": "cleaned_snli_ve_dev.csv",
+    "training_epochs_per_variant": 2,
+    "vision_encoder": "frozen",
+    "finetuned_components": [
+      "cross_attention",
+      "fusion_head",
+      "classifier_head"
+    ],
+    "latency_batch_size": 16,
+    "latency_unit": "ms per batch"
+  },
+  "checkpoints": {
+    "vit_12_layers": "final_sota_visual_entailment3.pth",
+    "vit_9_layers": "task_3_9.pth",
+    "vit_6_layers": "task_3_6.pth"
+  },
+  "notes": "Metrics are the final task-3 reported training/validation and latency results."
+}

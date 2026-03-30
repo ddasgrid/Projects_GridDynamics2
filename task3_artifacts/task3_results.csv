@@ -1,0 +1,4 @@
+variant,vit_depth,checkpoint,train_loss,train_acc_pct,val_loss,val_acc_pct,latency_ms_per_batch,total_params,param_reduction_pct,latency_speedup_vs_12,val_acc_delta_vs_12
+vit_12_layers,12,final_sota_visual_entailment3.pth,0.8914,58.38,0.8459,61.90,436.45,198892035,0.00,1.00,0.00
+vit_9_layers,9,task_3_9.pth,0.8819,59.14,0.8315,62.18,234.05,177628419,10.69,1.87,0.28
+vit_6_layers,6,task_3_6.pth,0.8842,58.88,0.8404,61.47,167.02,156364803,21.38,2.61,-0.43
