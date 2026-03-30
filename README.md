@@ -215,6 +215,29 @@ Proxy Training -> Architecture search -> Progressive unfreezing -> Early stoppin
 | SOTA (Attention + SwiGLU, Top 2 Unfrozen) | 50% | 67.21% | Missed | Stable on limited data |
 | SOTA Collapse (Attention + SwiGLU, Top 4 Unfrozen) | 100% + Hard Negs | 33.37% | Failed | Unstable |
 
+---
+
+##  Hard Negatives & SOTA Collapse
+
+### What Happened in Experiment 9
+
+The attention + SwiGLU architecture was stress-tested with hard negatives and deeper unfreezing. In epoch 2, validation loss became NaN and accuracy dropped to chance level.
+
+### Root Cause (High-Level)
+
+```text
+Hard negatives + deeper unfreezing + fragile gated attention math
+-> gradient explosion / representation drift
+-> NaN collapse
+```
+
+### Why the Simpler Base Model Survived
+
+- Concatenation + linear head has lower numerical fragility.
+- It handles gradient spikes better in full-scale training.
+
+---
+
 ### Baseline Checkpoint Decision for Task 1-5 Work
 
 Before running Task 1-5 deliverables, we standardized on **`final_sota_visual_entailment3.pth` (64.18% clean-test accuracy)** as the practical baseline in app and analysis pipelines.
@@ -238,26 +261,6 @@ For full per-task reports, see:
 - [`README_task4.md`](README_task4.md)
 - [`README_task5.md`](README_task5.md)
 
----
-
-##  Hard Negatives & SOTA Collapse
-
-### What Happened in Experiment 9
-
-The attention + SwiGLU architecture was stress-tested with hard negatives and deeper unfreezing. In epoch 2, validation loss became NaN and accuracy dropped to chance level.
-
-### Root Cause (High-Level)
-
-```text
-Hard negatives + deeper unfreezing + fragile gated attention math
--> gradient explosion / representation drift
--> NaN collapse
-```
-
-### Why the Simpler Base Model Survived
-
-- Concatenation + linear head has lower numerical fragility.
-- It handles gradient spikes better in full-scale training.
 
 ---
 
@@ -298,18 +301,29 @@ streamlit run app.py
 **Software:**
 
 ```text
-torch>=2.0.0
-transformers>=4.30.0
-onnx>=1.14.0
-onnxruntime>=1.16.0
-coremltools>=7.0
-pandas>=1.5.0
-numpy>=1.23.0
-Pillow>=9.0.0
-streamlit>=1.25.0
-matplotlib>=3.7.0
-scikit-learn>=1.2.0
-nltk>=3.8.1
+# Core runtime
+numpy>=1.26
+pandas>=2.1
+Pillow>=10.0
+torch>=2.2
+transformers>=4.40
+streamlit>=1.30
+tqdm>=4.66
+psutil>=5.9
+huggingface_hub>=0.23
+
+# Data + NLP utilities used in task pipelines
+datasets>=2.16
+nltk>=3.8
+spacy>=3.7
+
+# Visualization
+matplotlib>=3.8
+
+# Task 1 export / optimization stack
+onnx>=1.15
+onnxruntime>=1.17
+coremltools>=8.0; platform_system == "Darwin"
 ```
 
 Install dependencies:
