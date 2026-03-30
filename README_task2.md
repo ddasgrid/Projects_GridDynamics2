@@ -13,7 +13,7 @@ Primary goals:
 - Curate 20 examples across entailment/neutral/contradiction with mixed difficulty.
 - Visualize token-conditioned and overall heatmaps on original images.
 
-##  Demo Videos
+##  Demo Video
 
 https://drive.google.com/file/d/12u0v2S9oZ5IB6xLMhQzW86krj99O-Y_c/view?usp=sharing
 
