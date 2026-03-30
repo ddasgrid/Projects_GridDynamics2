@@ -1,0 +1,21 @@
+source_index,image_path,hypothesis,true_label,pred_label,pred_confidence,difficulty,is_correct
+3887,./images_folder/flickr30k-images/4791485167.jpg,Someone is outside.,entailment,entailment,0.885723352432251,easy,1
+8815,./images_folder/flickr30k-images/6059154572.jpg,There is water in the picture.,entailment,entailment,0.8719309568405151,easy,1
+11311,./images_folder/flickr30k-images/1810651611.jpg,A little girl plays on some swings.,entailment,entailment,0.593925952911377,medium,1
+7760,./images_folder/flickr30k-images/1483574454.jpg,The man is near a bicycle.,entailment,entailment,0.5791136622428894,medium,1
+17403,./images_folder/flickr30k-images/5513727638.jpg,A biker reaches the apex of his ramp.,entailment,neutral,0.511396050453186,hard,0
+2002,./images_folder/flickr30k-images/4074473431.jpg,The marathon runners near the finish line.,entailment,neutral,0.44447505474090576,hard,0
+16117,./images_folder/flickr30k-images/7173939318.jpg,some people are boarding a ship to go on a cruise around the city,neutral,neutral,0.8874887824058533,easy,1
+2132,./images_folder/flickr30k-images/551315867.jpg,The two men know each other.,neutral,neutral,0.9220856428146362,easy,1
+3125,./images_folder/flickr30k-images/4459033855.jpg,A head coach of a team talks to reporters in the audience.,neutral,neutral,0.7181031107902527,medium,1
+3482,./images_folder/flickr30k-images/3120921482.jpg,A prodigy guitarist shows off.,neutral,neutral,0.5936962962150574,medium,1
+1769,./images_folder/flickr30k-images/4465093007.jpg,A man is having fun by himself.,neutral,neutral,0.4971148371696472,hard,1
+1624,./images_folder/flickr30k-images/410422753.jpg,the dog is outside,neutral,entailment,0.8449928164482117,hard,0
+8888,./images_folder/flickr30k-images/2622624460.jpg,A puppy digs a hole in a flower bed.,contradiction,contradiction,0.8248404860496521,easy,1
+8710,./images_folder/flickr30k-images/1453366750.jpg,A man is playing.,contradiction,contradiction,0.9243468046188354,easy,1
+15073,./images_folder/flickr30k-images/4900761380.jpg,The men are surfing.,contradiction,contradiction,0.7180505990982056,medium,1
+12665,./images_folder/flickr30k-images/4781019036.jpg,Young Children doing their homework,contradiction,contradiction,0.5507778525352478,medium,1
+327,./images_folder/flickr30k-images/48614561.jpg,The toddler gave their friend a red cape.,contradiction,neutral,0.6419098973274231,hard,0
+10873,./images_folder/flickr30k-images/2503250992.jpg,The man is sweeping the streets and picking up litter.,contradiction,contradiction,0.38389742374420166,hard,1
+14174,./images_folder/flickr30k-images/5988551357.jpg,The person is shopping in the mall.,contradiction,contradiction,0.8283737301826477,easy,1
+14412,./images_folder/flickr30k-images/3636936656.jpg,Woman is eating a bagel.,contradiction,contradiction,0.6276378631591797,medium,1
