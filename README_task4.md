@@ -1,5 +1,10 @@
 # Task 4: Prompt-Based Transfer for Visual Entailment
 
+
+##  Deployed App
+
+https://huggingface.co/spaces/DebDas02/Visual_Entailment
+
 ## Problem Statement
 This task builds prompt-based transfer for visual entailment without retraining the full multimodal backbone.
 
