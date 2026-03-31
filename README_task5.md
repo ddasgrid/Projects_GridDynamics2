@@ -1,5 +1,9 @@
 # Task 5: Adversarial Image-Text Pair Generation & Robustness Testing
 
+##  Deployed App
+
+https://huggingface.co/spaces/DebDas02/Visual_Entailment
+
 ## Problem Statement
 This task evaluates brittleness of the visual entailment model under controlled adversarial perturbations before deployment.
 
