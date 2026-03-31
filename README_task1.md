@@ -1,5 +1,11 @@
 # Task 1: CoreML Export & Quantization Pipeline
 
+
+##  Deployed App
+
+https://huggingface.co/spaces/DebDas02/Visual_Entailment
+
+
 ## Problem Statement
 This task focuses on optimizing a multimodal Visual Entailment model (ViT vision encoder + BERT text encoder + fusion head) for practical on-device inference on macOS/iOS.
 
