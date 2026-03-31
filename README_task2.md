@@ -1,5 +1,9 @@
 # Task 2: Cross-Attention Visualization for Entailment Reasoning
 
+##  Deployed App
+
+https://huggingface.co/spaces/DebDas02/Visual_Entailment
+
 ## Problem Statement
 This task audits visual-semantic reasoning by exposing where fusion attention focuses for entailment decisions.
 
