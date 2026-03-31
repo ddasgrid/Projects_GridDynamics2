@@ -8,6 +8,10 @@
 
 https://drive.google.com/drive/folders/1_OX-CSacoElP15tuaaJexJU-LPzLRy-5?usp=sharing
 
+##  Deployed App
+
+https://huggingface.co/spaces/DebDas02/Visual_Entailment
+
 #### System Limitations
 - The text pipeline truncates inputs strictly at 128 tokens, permanently deleting any excess words before processing.
 - The model struggles with out-of-distribution (OOD) data because its ViT and BERT backbones were fine-tuned specifically on SNLI-VE and Flickr30k datasets.
